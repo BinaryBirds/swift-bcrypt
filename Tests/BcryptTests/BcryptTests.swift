@@ -1,5 +1,5 @@
-import XCTest
 import Bcrypt
+import XCTest
 
 final class BcryptTests: XCTestCase {
     func testVerify() throws {
@@ -8,7 +8,7 @@ final class BcryptTests: XCTestCase {
             XCTAssert(result, "\(message): did not match \(desired)")
         }
     }
-    
+
     func testFail() throws {
         let digest = try Bcrypt.hash("foo", cost: 6)
         let res = try Bcrypt.verify("bar", created: digest)
@@ -31,5 +31,8 @@ final class BcryptTests: XCTestCase {
 }
 
 let tests: [(String, String)] = [
-    ("$2b$06$xETUbh.9MrhmYsSTXqg5tOJ/Az0WZuVfpYqvcDhYsuqBt3N1qQ7Bm", "binary-birds")
+    (
+        "$2b$06$xETUbh.9MrhmYsSTXqg5tOJ/Az0WZuVfpYqvcDhYsuqBt3N1qQ7Bm",
+        "binary-birds"
+    )
 ]
