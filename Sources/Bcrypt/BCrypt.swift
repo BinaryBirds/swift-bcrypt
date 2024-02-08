@@ -1,5 +1,4 @@
 import CBcrypt
-import Foundation
 
 extension FixedWidthInteger {
     public static func random() -> Self {
@@ -289,7 +288,7 @@ public final class BCryptDigest {
     }
 }
 
-public enum BcryptError: Swift.Error, CustomStringConvertible, LocalizedError {
+public enum BcryptError: Swift.Error, CustomStringConvertible {
     case invalidCost
     case invalidSalt
     case hashFailure

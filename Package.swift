@@ -20,7 +20,6 @@ let package = Package(
         .target(name: "Bcrypt", dependencies: [
             .target(name: "CBcrypt"),
         ]),
-        // MARK: - tests
         .testTarget(
             name: "BcryptTests",
             dependencies: [

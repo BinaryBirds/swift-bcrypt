@@ -26,3 +26,9 @@ import Bcrypt
 let digest = try Bcrypt.hash("binary-birds", cost: 6)
 let res = try Bcrypt.verify("binary-birds", created: digest)
 ```
+
+## Credits
+
+This code is derived from the Vapor web framework:
+
+- [Vapor](https://github.com/vapor/vapor)

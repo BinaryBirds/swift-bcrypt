@@ -2,6 +2,7 @@ import Bcrypt
 import XCTest
 
 final class BcryptTests: XCTestCase {
+
     func testVerify() throws {
         for (desired, message) in tests {
             let result = try Bcrypt.verify(message, created: desired)
