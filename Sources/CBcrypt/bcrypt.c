@@ -116,22 +116,22 @@ bb_bcrypt_hashpass(const char *key, const char *salt, char *encrypted,
     salt_len = BCRYPT_MAXSALT;
 
     /* Setting up S-Boxes and Subkeys */
-    Vapor_Blowfish_initstate(&state);
-    Vapor_Blowfish_expandstate(&state, csalt, salt_len,
+    BB_Blowfish_initstate(&state);
+    BB_Blowfish_expandstate(&state, csalt, salt_len,
                                (u_int8_t *) key, key_len);
     for (k = 0; k < rounds; k++) {
-        Vapor_Blowfish_expand0state(&state, (u_int8_t *) key, key_len);
-        Vapor_Blowfish_expand0state(&state, csalt, salt_len);
+        BB_Blowfish_expand0state(&state, (u_int8_t *) key, key_len);
+        BB_Blowfish_expand0state(&state, csalt, salt_len);
     }
 
     /* This can be precomputed later */
     j = 0;
     for (i = 0; i < BCRYPT_WORDS; i++)
-        cdata[i] = Vapor_Blowfish_stream2word(ciphertext, 4 * BCRYPT_WORDS, &j);
+        cdata[i] = BB_Blowfish_stream2word(ciphertext, 4 * BCRYPT_WORDS, &j);
 
     /* Now do the encryption */
     for (k = 0; k < 64; k++)
-        vapor_blf_enc(&state, cdata, BCRYPT_WORDS / 2);
+        bb_blf_enc(&state, cdata, BCRYPT_WORDS / 2);
 
     for (i = 0; i < BCRYPT_WORDS; i++) {
         ciphertext[4 * i + 3] = cdata[i] & 0xff;
