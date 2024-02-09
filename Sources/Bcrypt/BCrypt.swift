@@ -134,7 +134,7 @@ public final class BCryptDigest {
 
         let hashedBytes = UnsafeMutablePointer<Int8>.allocate(capacity: 128)
         defer { hashedBytes.deallocate() }
-        let hashingResult = vapor_bcrypt_hashpass(
+        let hashingResult = bb_bcrypt_hashpass(
             plaintext,
             normalizedSalt,
             hashedBytes,
@@ -247,7 +247,7 @@ public final class BCryptDigest {
         let encodedBytes = UnsafeMutablePointer<Int8>.allocate(capacity: 25)
         defer { encodedBytes.deallocate() }
         let res = data.withUnsafeBytes { bytes in
-            vapor_encode_base64(
+            bb_encode_base64(
                 encodedBytes,
                 bytes.baseAddress?.assumingMemoryBound(to: UInt8.self),
                 bytes.count

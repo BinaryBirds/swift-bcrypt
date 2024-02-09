@@ -48,7 +48,7 @@ static int decode_base64(u_int8_t *, size_t, const char *);
  * the core bcrypt function
  */
 int
-vapor_bcrypt_hashpass(const char *key, const char *salt, char *encrypted,
+bb_bcrypt_hashpass(const char *key, const char *salt, char *encrypted,
                       size_t encryptedlen)
 {
     blf_ctx state;
@@ -145,8 +145,8 @@ vapor_bcrypt_hashpass(const char *key, const char *salt, char *encrypted,
 
 
     snprintf(encrypted, 8, "$2%c$%2.2u$", minor, logr);
-    vapor_encode_base64(encrypted + 7, csalt, BCRYPT_MAXSALT);
-    vapor_encode_base64(encrypted + 7 + 22, ciphertext, 4 * BCRYPT_WORDS - 1);
+    bb_encode_base64(encrypted + 7, csalt, BCRYPT_MAXSALT);
+    bb_encode_base64(encrypted + 7 + 22, ciphertext, 4 * BCRYPT_WORDS - 1);
     explicit_bzero(&state, sizeof(state));
     explicit_bzero(ciphertext, sizeof(ciphertext));
     explicit_bzero(csalt, sizeof(csalt));
@@ -228,7 +228,7 @@ decode_base64(u_int8_t *buffer, size_t len, const char *b64data)
  * This works without = padding.
  */
 int
-vapor_encode_base64(char *b64buffer, const u_int8_t *data, size_t len)
+bb_encode_base64(char *b64buffer, const u_int8_t *data, size_t len)
 {
     u_int8_t *bp = (u_int8_t *)b64buffer;
     const u_int8_t *p = data;
