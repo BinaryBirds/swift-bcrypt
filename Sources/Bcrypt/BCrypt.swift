@@ -69,12 +69,12 @@ extension Collection where Element: Equatable {
 ///
 /// Use BCrypt to create hashes for sensitive information like passwords.
 ///
-///     try BCrypt.hash("vapor", cost: 4)
+///     try BCrypt.hash("binary_birds", cost: 4)
 ///
 /// BCrypt uses a random salt each time it creates a hash. To verify hashes, use the `verify(_:matches)` method.
 ///
-///     let hash = try BCrypt.hash("vapor", cost: 4)
-///     try BCrypt.verify("vapor", created: hash) // true
+///     let hash = try BCrypt.hash("binary_birds", cost: 4)
+///     try BCrypt.verify("binary_birds", created: hash) // true
 ///
 /// https://en.wikipedia.org/wiki/Bcrypt
 public var Bcrypt: BCryptDigest {
@@ -84,7 +84,7 @@ public var Bcrypt: BCryptDigest {
 /// Creates and verifies BCrypt hashes. Normally you will not need to initialize one of these classes and you will
 /// use the global `BCrypt` convenience instead.
 ///
-///     try BCrypt.hash("vapor", cost: 4)
+///     try BCrypt.hash("binary_birds", cost: 4)
 ///
 /// See `BCrypt` for more information.
 public final class BCryptDigest {
@@ -134,7 +134,7 @@ public final class BCryptDigest {
 
         let hashedBytes = UnsafeMutablePointer<Int8>.allocate(capacity: 128)
         defer { hashedBytes.deallocate() }
-        let hashingResult = vapor_bcrypt_hashpass(
+        let hashingResult = bb_bcrypt_hashpass(
             plaintext,
             normalizedSalt,
             hashedBytes,
@@ -152,8 +152,8 @@ public final class BCryptDigest {
     /// Verifies an existing BCrypt hash matches the supplied plaintext value. Verification works by parsing the salt and version from
     /// the existing digest and using that information to hash the plaintext data. If hash digests match, this method returns `true`.
     ///
-    ///     let hash = try BCrypt.hash("vapor", cost: 4)
-    ///     try BCrypt.verify("vapor", created: hash) // true
+    ///     let hash = try BCrypt.hash("binary_birds", cost: 4)
+    ///     try BCrypt.verify("binary_birds", created: hash) // true
     ///     try BCrypt.verify("foo", created: hash) // false
     ///
     /// - parameters:
@@ -247,7 +247,7 @@ public final class BCryptDigest {
         let encodedBytes = UnsafeMutablePointer<Int8>.allocate(capacity: 25)
         defer { encodedBytes.deallocate() }
         let res = data.withUnsafeBytes { bytes in
-            vapor_encode_base64(
+            bb_encode_base64(
                 encodedBytes,
                 bytes.baseAddress?.assumingMemoryBound(to: UInt8.self),
                 bytes.count
