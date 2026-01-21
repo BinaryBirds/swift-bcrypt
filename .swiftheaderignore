@@ -1,8 +1,8 @@
-Sources/CBcrypt/blf.h
-Sources/CBcrypt/include/module.modulemap
-Sources/CBcrypt/bcrypt.h
-Sources/CBcrypt/blf.c
-Sources/CBcrypt/bcrypt.c
+Sources/CBCrypt/blf.h
+Sources/CBCrypt/include/module.modulemap
+Sources/CBCrypt/bcrypt.h
+Sources/CBCrypt/blf.c
+Sources/CBCrypt/bcrypt.c
 .github/**
 docker/**
 AGENTS.md

@@ -4,102 +4,14 @@
 //
 //  Created by Kitti Bodecs on 2026. 01. 21..
 //
-
-import CBcrypt
-
-extension FixedWidthInteger {
-    /// Generates a random value in the full range of the integer type.
-    ///
-    /// This uses Swift's standard library random number generation.
-    ///
-    /// - Returns: A random value between `.min` and `.max` (inclusive).
-    public static func random() -> Self {
-        Self.random(in: .min ... .max)
-    }
-
-    /// Generates a random value in the full range of the integer type using a custom random number generator.
-    ///
-    /// - Parameter generator: The random number generator to use.
-    /// - Returns: A random value between `.min` and `.max` (inclusive).
-    public static func random<T>(using generator: inout T) -> Self
-    where T: RandomNumberGenerator {
-        Self.random(in: .min ... .max, using: &generator)
-    }
-}
-
-extension Array where Element: FixedWidthInteger {
-    /// Generates an array of random integers of the given count using the system random number generator.
-    ///
-    /// - Parameter count: The number of elements to generate.
-    /// - Returns: An array containing `count` random elements.
-    public static func random(count: Int) -> [Element] {
-        var array: [Element] = .init(repeating: 0, count: count)
-        for i in (0..<count) { array[i] = Element.random() }
-        return array
-    }
-
-    /// Generates an array of random integers of the given count using a custom random number generator.
-    ///
-    /// - Parameters:
-    ///   - count: The number of elements to generate.
-    ///   - generator: The random number generator to use.
-    /// - Returns: An array containing `count` random elements.
-    public static func random<T>(count: Int, using generator: inout T)
-        -> [Element]
-    where T: RandomNumberGenerator {
-        var array: [Element] = .init(repeating: 0, count: count)
-        for i in (0..<count) { array[i] = Element.random(using: &generator) }
-        return array
-    }
-}
-
-// MARK: - Secure Comparison
-
-extension Collection where Element: Equatable {
-    /// Performs a full comparison of two collections without early exit.
-    ///
-    /// This method is intended for comparing security-sensitive values (such as hash digests)
-    /// where early-exit comparisons may leak timing information.
-    ///
-    /// The function compares elements up to the length of the smaller collection, then finally
-    /// checks the counts match.
-    ///
-    /// ```swift
-    /// let a: Data = ...
-    /// let b: Data = ...
-    /// let equal = a.secureCompare(to: b)
-    /// ```
-    ///
-    /// - Parameter other: The collection to compare against.
-    /// - Returns: `true` if the collections have equal length and all elements match; otherwise `false`.
-    public func secureCompare<C>(to other: C) -> Bool
-    where C: Collection, C.Element == Element {
-        let chk = self
-        let sig = other
-
-        // byte-by-byte comparison to avoid timing attacks
-        var match = true
-        for i in 0..<Swift.min(chk.count, sig.count)
-        where chk[chk.index(chk.startIndex, offsetBy: i)]
-            != sig[sig.index(sig.startIndex, offsetBy: i)]
-        {
-            match = false
-        }
-
-        // finally, if the counts match then we can accept the result
-        guard chk.count == sig.count else {
-            return false
-        }
-        return match
-    }
-}
-
 // MARK: - BCrypt
+
+import CBCrypt
 
 /// A convenience accessor for hashing and verifying BCrypt hashes.
 ///
 /// Use this global variable to create and verify BCrypt hashes without manually instantiating
-/// ``BCryptDigest``.
+/// ``BCrypt``.
 ///
 /// ```swift
 /// let hash = try Bcrypt.hash("password", cost: 12)
@@ -109,7 +21,7 @@ extension Collection where Element: Equatable {
 
 /// A BCrypt hasher/verifier.
 ///
-/// ``BCryptDigest`` provides methods for creating BCrypt hashes and verifying plaintext values
+/// ``BCrypt`` provides methods for creating BCrypt hashes and verifying plaintext values
 /// against existing BCrypt hashes. It delegates the core cryptographic work to the underlying
 /// C implementation (`CBcrypt`).
 ///
@@ -119,17 +31,17 @@ extension Collection where Element: Equatable {
 /// - Salt (OpenBSD Radix-64 encoding)
 /// - Checksum
 ///
-/// Prefer using the global ``Bcrypt`` convenience value rather than constructing this directly.
+/// Prefer using the global ``BCrypt`` convenience value rather than constructing this directly.
 ///
 /// ```swift
-/// let digest = BCryptDigest()
+/// let digest = BCrypt()
 /// let hash = try digest.hash("password")
 /// let ok = try digest.verify("password", created: hash)
 /// ```
 public final class BCrypt {
-    /// Creates a new ``BCryptDigest`` instance.
+    /// Creates a new ``BCrypt`` instance.
     ///
-    /// Prefer ``Bcrypt`` unless you need explicit ownership or dependency injection.
+    /// Prefer ``BCrypt`` unless you need explicit ownership or dependency injection.
     public init() {}
 
     /// Creates a new BCrypt hash using a randomly generated salt.
@@ -139,10 +51,10 @@ public final class BCrypt {
     /// - Parameters:
     ///   - plaintext: The plaintext value to hash (typically a password).
     ///   - cost: The BCrypt cost factor (log rounds). Higher values are more secure but slower.
-    /// - Throws: ``BcryptError/invalidCost`` if `cost` is outside the allowed range,
-    ///           or ``BcryptError/hashFailure`` if hashing fails.
+    /// - Throws: ``BCryptError/invalidCost`` if `cost` is outside the allowed range,
+    ///           or ``BCryptError/hashFailure`` if hashing fails.
     /// - Returns: A BCrypt hash string suitable for storage (e.g. in a database).
-    public func hash(_ plaintext: String, cost: Int = 12) throws(BcryptError)
+    public func hash(_ plaintext: String, cost: Int = 12) throws(BCryptError)
         -> String
     {
         guard cost >= BCRYPT_MINLOGROUNDS && cost <= 31 else {
@@ -163,10 +75,10 @@ public final class BCrypt {
     /// - Parameters:
     ///   - plaintext: The plaintext value to hash.
     ///   - salt: The salt to use, either a full salt string or a 22-character salt body.
-    /// - Throws: ``BcryptError/invalidSalt`` if the salt has an invalid format,
-    ///           or ``BcryptError/hashFailure`` if hashing fails.
+    /// - Throws: ``BCryptError/invalidSalt`` if the salt has an invalid format,
+    ///           or ``BCryptError/hashFailure`` if hashing fails.
     /// - Returns: A BCrypt hash string.
-    public func hash(_ plaintext: String, salt: String) throws(BcryptError)
+    public func hash(_ plaintext: String, salt: String) throws(BCryptError)
         -> String
     {
         guard isSaltValid(salt) else {
@@ -236,7 +148,7 @@ public final class BCrypt {
     ///           or ``BcryptError/hashFailure`` if hashing fails during verification.
     /// - Returns: `true` if `plaintext` matches the hash; otherwise `false`.
     public func verify(_ plaintext: String, created hash: String)
-        throws(BcryptError) -> Bool
+        throws(BCryptError) -> Bool
     {
         guard let hashVersion = Algorithm(rawValue: String(hash.prefix(4)))
         else {
@@ -377,51 +289,6 @@ public final class BCrypt {
         /// The length of the salt body without revision and cost (always 22).
         static var saltCount: Int {
             22
-        }
-    }
-}
-
-// MARK: - Errors
-
-/// Errors thrown by ``BCryptDigest`` operations.
-///
-/// These errors cover invalid input formatting (cost, salt, hash) and failures returned by the
-/// underlying C implementation.
-public enum BcryptError: Swift.Error, CustomStringConvertible {
-    /// The supplied cost factor is outside the allowed range.
-    case invalidCost
-
-    /// The supplied salt is malformed or has an unexpected length/revision.
-    case invalidSalt
-
-    /// The underlying hashing function failed.
-    case hashFailure
-
-    /// The supplied hash string is malformed (unknown version, missing salt, missing checksum, etc.).
-    case invalidHash
-
-    /// The underlying Radix-64 encoding routine failed.
-    case base64EncodingFailure
-
-    /// A human-readable description of the error.
-    public var errorDescription: String? { self.description }
-
-    /// A formatted description suitable for logging.
-    public var description: String { "Bcrypt error: \(self.reason)" }
-
-    /// A short reason string describing the failure.
-    var reason: String {
-        switch self {
-        case .invalidCost:
-            return "Cost should be between 4 and 31"
-        case .invalidSalt:
-            return "Provided salt has incorrect format"
-        case .hashFailure:
-            return "Unable to compute hash"
-        case .invalidHash:
-            return "Invalid hash formatting"
-        case .base64EncodingFailure:
-            return "Unable to base64-encode salt"
         }
     }
 }

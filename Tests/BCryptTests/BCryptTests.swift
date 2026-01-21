@@ -1,17 +1,17 @@
 //
-//  BcryptTests.swift
+//  BCryptTests.swift
 //  swift-bcrypt
 //
 //  Created by Kitti Bodecs on 2026. 01. 21..
 //
 
-import Bcrypt
+import BCrypt
 import Testing
 
-@testable import Bcrypt
+@testable import BCrypt
 
 @Suite
-struct BcryptTests {
+struct BCryptTests {
 
     struct ConstantRNG: RandomNumberGenerator {
         var value: UInt64
@@ -35,20 +35,20 @@ struct BcryptTests {
 
     @Test
     func invalidMinCost() throws {
-        #expect(throws: BcryptError.invalidCost) {
+        #expect(throws: BCryptError.invalidCost) {
             try BCrypt().hash("foo", cost: 1)
         }
     }
     @Test
     func invalidMaxCost() throws {
-        #expect(throws: BcryptError.invalidCost) {
+        #expect(throws: BCryptError.invalidCost) {
             try BCrypt().hash("foo", cost: 32)
         }
     }
 
     @Test
     func invalidSalt() throws {
-        #expect(throws: BcryptError.invalidHash) {
+        #expect(throws: BCryptError.invalidHash) {
             try BCrypt().verify("", created: "foo")
         }
     }
@@ -108,7 +108,7 @@ struct BcryptTests {
 
     @Test
     func hashWithInvalidSaltThrows() {
-        #expect(throws: BcryptError.invalidSalt) {
+        #expect(throws: BCryptError.invalidSalt) {
             _ = try BCrypt().hash("password", salt: "nope")
         }
     }
@@ -154,7 +154,7 @@ struct BcryptTests {
         // 29 chars but invalid revision
         #expect(fullSalt.count == 29)
 
-        #expect(throws: BcryptError.invalidSalt) {
+        #expect(throws: BCryptError.invalidSalt) {
             _ = try BCrypt().hash("password", salt: fullSalt)
         }
     }

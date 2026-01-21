@@ -1,0 +1,4 @@
+module CBCrypt [system][extern_c] {
+ header "../bcrypt.h"
+ export *
+}

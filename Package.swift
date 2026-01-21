@@ -31,19 +31,19 @@ let package = Package(
         .visionOS(.v1),
     ],
     products: [
-        .library(name: "Bcrypt", targets: ["Bcrypt"]),
+        .library(name: "BCrypt", targets: ["BCrypt"]),
     ],
     dependencies: [
     ],
     targets: [
-        .target(name: "CBcrypt"),
-        .target(name: "Bcrypt", dependencies: [
-            .target(name: "CBcrypt"),
+        .target(name: "CBCrypt"),
+        .target(name: "BCrypt", dependencies: [
+            .target(name: "CBCrypt"),
         ]),
         .testTarget(
-            name: "BcryptTests",
+            name: "BCryptTests",
             dependencies: [
-                .target(name: "Bcrypt"),
+                .target(name: "BCrypt"),
             ]
         ),
     ]
