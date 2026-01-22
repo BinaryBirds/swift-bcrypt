@@ -79,9 +79,10 @@ public final class BCrypt {
     /// - Throws: ``BCryptError/invalidSalt`` if the salt has an invalid format,
     ///           or ``BCryptError/hashFailure`` if hashing fails.
     /// - Returns: A BCrypt hash string.
-    public func hash(_ plaintext: String, salt: String) throws(BCryptError)
-        -> String
-    {
+    public func hash(
+        _ plaintext: String, 
+        salt: String
+    ) throws(BCryptError) -> String {
         guard isSaltValid(salt) else {
             throw .invalidSalt
         }
