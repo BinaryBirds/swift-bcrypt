@@ -40,7 +40,7 @@ Update the packages and you are ready.
  
 ![DocC API documentation](https://img.shields.io/badge/DocC-API_documentation-F05138)
 
-API documentation is available at the following [link] (https://binarybirds.github.io/bcrypt). Refer to the mock objects in the Tests directory if you want to build a custom database driver implementation.
+API documentation is available at the following [link](https://binarybirds.github.io/swift-bcrypt). Refer to the mock objects in the Tests directory if you want to build a custom database driver implementation.
 
 > [!TIP]
 > Avoid calling `database.execute` while in a transaction; use the transaction `connection` instead.
