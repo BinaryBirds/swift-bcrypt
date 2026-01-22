@@ -1,4 +1,4 @@
-module CBcrypt [system][extern_c] {
+module CBCrypt [system][extern_c] {
  header "../bcrypt.h"
  export *
 }
