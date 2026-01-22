@@ -148,9 +148,10 @@ public final class BCrypt {
     /// - Throws: ``BcryptError/invalidHash`` if the provided hash is malformed,
     ///           or ``BcryptError/hashFailure`` if hashing fails during verification.
     /// - Returns: `true` if `plaintext` matches the hash; otherwise `false`.
-    public func verify(_ plaintext: String, created hash: String)
-        throws(BCryptError) -> Bool
-    {
+    public func verify(
+        _ plaintext: String, 
+        created hash: String
+    ) throws(BCryptError) -> Bool {
         guard let hashVersion = Algorithm(rawValue: String(hash.prefix(4)))
         else {
             throw .invalidHash
