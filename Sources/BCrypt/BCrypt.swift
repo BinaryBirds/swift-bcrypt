@@ -202,7 +202,11 @@ public final class BCrypt {
     )
         -> String
     {
-        let randomData: [UInt8]
+    private func generateSalt(
+        cost: Int,
+        algorithm: Algorithm = .b,
+        seed: [UInt8]? = nil
+    ) -> String {
         if let seed = seed {
             randomData = seed
         }
