@@ -23,7 +23,7 @@ import CBCrypt
 ///
 /// ``BCrypt`` provides methods for creating BCrypt hashes and verifying plaintext values
 /// against existing BCrypt hashes. It delegates the core cryptographic work to the underlying
-/// C implementation (`CBcrypt`).
+/// C implementation (`CBCrypt`).
 ///
 /// The hashed output includes:
 /// - Algorithm revision (e.g. `$2b$`)
