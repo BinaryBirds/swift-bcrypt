@@ -14,8 +14,8 @@ import CBCrypt
 /// ``BCrypt``.
 ///
 /// ```swift
-/// let hash = try Bcrypt.hash("password", cost: 12)
-/// let ok = try Bcrypt.verify("password", created: hash)
+/// let hash = try BCrypt().hash("password", cost: 12)
+/// let ok = try BCrypt().verify("password", created: hash)
 /// ```
 ///
 
@@ -23,7 +23,7 @@ import CBCrypt
 ///
 /// ``BCrypt`` provides methods for creating BCrypt hashes and verifying plaintext values
 /// against existing BCrypt hashes. It delegates the core cryptographic work to the underlying
-/// C implementation (`CBcrypt`).
+/// C implementation (`CBCrypt`).
 ///
 /// The hashed output includes:
 /// - Algorithm revision (e.g. `$2b$`)
@@ -54,9 +54,10 @@ public final class BCrypt {
     /// - Throws: ``BCryptError/invalidCost`` if `cost` is outside the allowed range,
     ///           or ``BCryptError/hashFailure`` if hashing fails.
     /// - Returns: A BCrypt hash string suitable for storage (e.g. in a database).
-    public func hash(_ plaintext: String, cost: Int = 12) throws(BCryptError)
-        -> String
-    {
+    public func hash(
+        _ plaintext: String, 
+        cost: Int = 12
+    ) throws(BCryptError) -> String {
         guard cost >= BCRYPT_MINLOGROUNDS && cost <= 31 else {
             throw .invalidCost
         }
@@ -78,9 +79,10 @@ public final class BCrypt {
     /// - Throws: ``BCryptError/invalidSalt`` if the salt has an invalid format,
     ///           or ``BCryptError/hashFailure`` if hashing fails.
     /// - Returns: A BCrypt hash string.
-    public func hash(_ plaintext: String, salt: String) throws(BCryptError)
-        -> String
-    {
+    public func hash(
+        _ plaintext: String, 
+        salt: String
+    ) throws(BCryptError) -> String {
         guard isSaltValid(salt) else {
             throw .invalidSalt
         }
@@ -136,9 +138,9 @@ public final class BCrypt {
     /// in a way that avoids early exit.
     ///
     /// ```swift
-    /// let hash = try Bcrypt.hash("password", cost: 12)
-    /// let ok = try Bcrypt.verify("password", created: hash)   // true
-    /// let bad = try Bcrypt.verify("wrong", created: hash)     // false
+    /// let hash = try BCrypt().hash("password", cost: 12)
+    /// let ok = try BCrypt().verify("password", created: hash)   // true
+    /// let bad = try BCrypt().verify("wrong", created: hash)     // false
     /// ```
     ///
     /// - Parameters:
@@ -147,9 +149,10 @@ public final class BCrypt {
     /// - Throws: ``BcryptError/invalidHash`` if the provided hash is malformed,
     ///           or ``BcryptError/hashFailure`` if hashing fails during verification.
     /// - Returns: `true` if `plaintext` matches the hash; otherwise `false`.
-    public func verify(_ plaintext: String, created hash: String)
-        throws(BCryptError) -> Bool
-    {
+    public func verify(
+        _ plaintext: String, 
+        created hash: String
+    ) throws(BCryptError) -> Bool {
         guard let hashVersion = Algorithm(rawValue: String(hash.prefix(4)))
         else {
             throw .invalidHash
@@ -200,7 +203,11 @@ public final class BCrypt {
     )
         -> String
     {
-        let randomData: [UInt8]
+    private func generateSalt(
+        cost: Int,
+        algorithm: Algorithm = .b,
+        seed: [UInt8]? = nil
+    ) -> String {
         if let seed = seed {
             randomData = seed
         }
