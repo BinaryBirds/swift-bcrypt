@@ -1,0 +1,15 @@
+.gitignore
+.swift-format
+.swiftformatignore
+.swiftheaderignore
+Sources/CBCrypt/**
+.github/**
+docker/**
+AGENTS.md
+LICENSE
+Makefile
+Package.swift
+Package.resolved
+README.md
+.unacceptablelanguageignore
+docker-compose.yaml
