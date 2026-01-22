@@ -54,9 +54,10 @@ public final class BCrypt {
     /// - Throws: ``BCryptError/invalidCost`` if `cost` is outside the allowed range,
     ///           or ``BCryptError/hashFailure`` if hashing fails.
     /// - Returns: A BCrypt hash string suitable for storage (e.g. in a database).
-    public func hash(_ plaintext: String, cost: Int = 12) throws(BCryptError)
-        -> String
-    {
+    public func hash(
+        _ plaintext: String, 
+        cost: Int = 12
+    ) throws(BCryptError) -> String {
         guard cost >= BCRYPT_MINLOGROUNDS && cost <= 31 else {
             throw .invalidCost
         }
