@@ -3,7 +3,7 @@
 Swift BCrypt implementation for securely hashing and verifying passwords using
 adaptive cost factors, random salts, and constant-time comparison.
 
-![Release: 1.0.3](https://img.shields.io/badge/Release-1%2E0%2E3-F05138)
+![Release: 2.0.0](https://img.shields.io/badge/Release-2%2E0%2E0-F05138)
 
 ## Requirements
 
