@@ -55,7 +55,7 @@ public final class BCrypt {
     ///           or ``BCryptError/hashFailure`` if hashing fails.
     /// - Returns: A BCrypt hash string suitable for storage (e.g. in a database).
     public func hash(
-        _ plaintext: String, 
+        _ plaintext: String,
         cost: Int = 12
     ) throws(BCryptError) -> String {
         guard cost >= BCRYPT_MINLOGROUNDS && cost <= 31 else {
@@ -80,7 +80,7 @@ public final class BCrypt {
     ///           or ``BCryptError/hashFailure`` if hashing fails.
     /// - Returns: A BCrypt hash string.
     public func hash(
-        _ plaintext: String, 
+        _ plaintext: String,
         salt: String
     ) throws(BCryptError) -> String {
         guard isSaltValid(salt) else {
@@ -150,7 +150,7 @@ public final class BCrypt {
     ///           or ``BcryptError/hashFailure`` if hashing fails during verification.
     /// - Returns: `true` if `plaintext` matches the hash; otherwise `false`.
     public func verify(
-        _ plaintext: String, 
+        _ plaintext: String,
         created hash: String
     ) throws(BCryptError) -> Bool {
         guard let hashVersion = Algorithm(rawValue: String(hash.prefix(4)))
@@ -200,14 +200,8 @@ public final class BCrypt {
         cost: Int,
         algorithm: Algorithm = .b,
         seed: [UInt8]? = nil
-    )
-        -> String
-    {
-    private func generateSalt(
-        cost: Int,
-        algorithm: Algorithm = .b,
-        seed: [UInt8]? = nil
     ) -> String {
+        let randomData: [UInt8]
         if let seed = seed {
             randomData = seed
         }
