@@ -42,12 +42,6 @@ Update the packages and you are ready.
 
 API documentation is available at the following [link] (https://binarybirds.github.io/bcrypt). Refer to the mock objects in the Tests directory if you want to build a custom database driver implementation.
 
-> [!TIP]
-> Avoid calling `database.execute` while in a transaction; use the transaction `connection` instead.
-
-> [!WARNING]  
-> This repository is a work in progress, things can break until it reaches v1.0.0.
-
 ## Usage example
 
 Basic example
