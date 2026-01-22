@@ -14,8 +14,8 @@ import CBCrypt
 /// ``BCrypt``.
 ///
 /// ```swift
-/// let hash = try Bcrypt.hash("password", cost: 12)
-/// let ok = try Bcrypt.verify("password", created: hash)
+/// let hash = try BCrypt().hash("password", cost: 12)
+/// let ok = try BCrypt().verify("password", created: hash)
 /// ```
 ///
 
