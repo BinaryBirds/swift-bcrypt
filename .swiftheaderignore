@@ -11,4 +11,5 @@ Makefile
 Package.swift
 Package.resolved
 README.md
+.unacceptablelanguageignore
 docker-compose.yaml
