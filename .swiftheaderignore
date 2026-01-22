@@ -2,7 +2,7 @@
 .swift-format
 .swiftformatignore
 .swiftheaderignore
-Sources/CBcrypt/**
+Sources/CBCrypt/**
 .github/**
 docker/**
 AGENTS.md
