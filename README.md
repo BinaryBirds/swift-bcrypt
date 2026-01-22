@@ -76,4 +76,4 @@ This code is derived from the Vapor web framework:
 
 ## Contributing
 
-[Pull requests](https://github.com/feather-framework/feather-database/pulls) are welcome. Please keep changes focused and include tests for new logic. 🙏
+[Pull requests](https://github.com/binarybirds/swift-bcrypt/pulls) are welcome. Please keep changes focused and include tests for new logic. 🙏
