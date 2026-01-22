@@ -138,9 +138,9 @@ public final class BCrypt {
     /// in a way that avoids early exit.
     ///
     /// ```swift
-    /// let hash = try Bcrypt.hash("password", cost: 12)
-    /// let ok = try Bcrypt.verify("password", created: hash)   // true
-    /// let bad = try Bcrypt.verify("wrong", created: hash)     // false
+    /// let hash = try BCrypt().hash("password", cost: 12)
+    /// let ok = try BCrypt().verify("password", created: hash)   // true
+    /// let bad = try BCrypt().verify("wrong", created: hash)     // false
     /// ```
     ///
     /// - Parameters:
