@@ -146,8 +146,8 @@ public final class BCrypt {
     /// - Parameters:
     ///   - plaintext: The plaintext value to verify.
     ///   - hash: A BCrypt hash string previously produced by ``hash(_:cost:)`` or compatible implementations.
-    /// - Throws: ``BcryptError/invalidHash`` if the provided hash is malformed,
-    ///           or ``BcryptError/hashFailure`` if hashing fails during verification.
+    /// - Throws: ``BCryptError/invalidHash`` if the provided hash is malformed,
+    ///           or ``BCryptError/hashFailure`` if hashing fails during verification.
     /// - Returns: `true` if `plaintext` matches the hash; otherwise `false`.
     public func verify(
         _ plaintext: String,
