@@ -1,10 +1,11 @@
+Sources/CBCrypt/**
+docker/**
 .gitignore
 .swift-format
 .swiftformatignore
 .swiftheaderignore
-Sources/CBCrypt/**
+.docctargetlist
 .github/**
-docker/**
 AGENTS.md
 LICENSE
 Makefile

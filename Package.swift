@@ -24,27 +24,36 @@ defaultSwiftSettings.append(
 let package = Package(
     name: "swift-bcrypt",
     platforms: [
-        .macOS(.v13),
-        .iOS(.v16),
-        .tvOS(.v16),
-        .watchOS(.v9),
-        .visionOS(.v1),
+        .macOS(.v15),
+        .iOS(.v18),
+        .tvOS(.v18),
+        .watchOS(.v11),
+        .visionOS(.v2),
     ],
     products: [
         .library(name: "BCrypt", targets: ["BCrypt"]),
     ],
     dependencies: [
+        // [docc-plugin-placeholder]
     ],
     targets: [
-        .target(name: "CBCrypt"),
-        .target(name: "BCrypt", dependencies: [
-            .target(name: "CBCrypt"),
-        ]),
+        .target(
+            name: "CBCrypt",
+            swiftSettings: defaultSwiftSettings
+        ),
+        .target(
+            name: "BCrypt", 
+            dependencies: [
+                .target(name: "CBCrypt"),
+            ], 
+            swiftSettings: defaultSwiftSettings
+        ),
         .testTarget(
             name: "BCryptTests",
             dependencies: [
                 .target(name: "BCrypt"),
-            ]
+            ], 
+            swiftSettings: defaultSwiftSettings
         ),
     ]
 )
